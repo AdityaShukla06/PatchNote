@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PatchNote
 
-## Getting Started
+PatchNote is an automated release notes generator built for product teams. It connects directly to your existing workflow tools like Linear and GitHub, pulls completed tickets and merged PRs, and generates polished, audience aware changelogs. It writes three distinct versions of your release notes: a user facing version, a technical developer version, and an executive summary.
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Writing release notes is often a rushed, last minute task. PatchNote solves this by automating the entire process. Connect your workspace, select a date range, and the application does the rest. It uses the Gemini API to analyze your tickets and PRs, formatting them into clear, readable updates tailored to different audiences.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Linear Integration: Securely connect your Linear workspace via OAuth to automatically fetch completed issues.
+* GitHub Integration: Pull merged pull requests based on the selected date range.
+* Audience Specific Generation: Powered by Gemini 1.5 Flash, it creates unique changelog versions for users, developers, and executives.
+* Public Changelog Page: A dedicated, server side rendered public page to share your user facing notes.
+* Analytics Ready: Novus.ai snippet injected into the public pages to track reads and engagement.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+* Framework: Next.js 14 App Router
+* Styling: Tailwind CSS and shadcn components
+* Authentication: Clerk
+* Database: Supabase PostgreSQL
+* AI: Google Gemini API
+* Analytics: Novus.ai
 
-To learn more about Next.js, take a look at the following resources:
+## Setup Instructions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository.
+2. Run npm install to install the required dependencies.
+3. Apply the database schema located in the supabase/migrations folder to your Supabase project using the SQL editor.
+4. Fill in the .env.local file with your actual API keys.
+5. Run npm run dev to start the development server.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Current Progress
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Scaffolded the Next.js App Router project.
+* Configured Tailwind CSS, shadcn components, and typography plugins.
+* Implemented Supabase schemas with Row Level Security.
+* Created the Clerk authentication flow including sign in, sign up, and protected routes.
+* Built the Linear OAuth flow and callback handlers.
+* Created the API routes to fetch completed Linear issues and merged GitHub PRs.
+* Built the Gemini integration route to process tickets and save changelogs to the database.
+* Designed the protected user dashboard and the public facing changelog page.
