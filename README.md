@@ -1,5 +1,7 @@
 # PatchNote
 
+**Live Demo:** [https://patch-note.vercel.app](https://patch-note.vercel.app)
+
 PatchNote is an automated release notes generator built for product teams. It connects directly to your existing workflow tools like Linear and GitHub, pulls completed tickets and merged PRs, and generates polished, audience aware changelogs. It writes three distinct versions of your release notes: a user facing version, a technical developer version, and an executive summary.
 
 ## Overview

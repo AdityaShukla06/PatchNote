@@ -22,8 +22,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PatchNote — AI Release Notes That Write Themselves",
-  description: "Connect your Linear or GitHub workspace. PatchNote pulls completed tickets and uses AI to generate polished, audience-aware changelogs instantly.",
+  title: "PatchNote | AI Release Notes That Write Themselves",
+  description: "Connect your Linear or GitHub workspace. PatchNote pulls completed tickets and uses AI to generate polished, audience aware changelogs instantly.",
 };
 
 export default function RootLayout({
