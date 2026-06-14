@@ -23,14 +23,14 @@ ${JSON.stringify(rawTickets, null, 2)}
 
 Respond ONLY with a valid JSON object. No markdown fences around the JSON. No preamble. Schema:
 {
-  "user_changelog": "markdown string — friendly, benefit-focused, no jargon",
-  "dev_changelog": "markdown string — technical, references component names, breaking changes flagged",
-  "exec_summary": "markdown string — 3-5 bullets max, outcome-focused, no feature names"
+  "user_changelog": "markdown string - friendly, benefit-focused, no jargon",
+  "dev_changelog": "markdown string - technical, references component names, breaking changes flagged",
+  "exec_summary": "markdown string - 3-5 bullets max, outcome-focused, no feature names"
 }
 `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-3-flash-preview",
       contents: prompt,
       config: {
         responseMimeType: "application/json"
@@ -41,8 +41,9 @@ Respond ONLY with a valid JSON object. No markdown fences around the JSON. No pr
     let parsedData;
     
     try {
-      parsedData = JSON.parse(text);
-    } catch (parseError) {
+      const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+      parsedData = JSON.parse(cleanText);
+    } catch {
       console.error("Failed to parse Gemini output:", text);
       return new NextResponse("AI Output Error", { status: 500 });
     }

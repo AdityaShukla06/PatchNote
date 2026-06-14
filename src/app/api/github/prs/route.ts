@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { RawTicket } from "@/types";
 
+interface GitHubIssue {
+  id: number;
+  title: string;
+  body: string | null;
+  pull_request?: {
+    merged_at: string | null;
+  };
+  closed_at: string | null;
+  labels: { name: string }[];
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const workspaceId = searchParams.get("workspaceId");
@@ -42,13 +53,13 @@ export async function GET(request: Request) {
 
     const ghData = await ghResponse.json();
 
-    const rawTickets: RawTicket[] = ghData.items.map((item: any) => ({
+    const rawTickets: RawTicket[] = ghData.items.map((item: GitHubIssue) => ({
       id: item.id.toString(),
       title: item.title,
       description: item.body || "",
       source: "github",
-      completedAt: item.pull_request?.merged_at || item.closed_at,
-      labels: item.labels.map((l: any) => l.name),
+      completedAt: item.pull_request?.merged_at || item.closed_at || new Date().toISOString(),
+      labels: item.labels.map((l) => l.name),
     }));
 
     return NextResponse.json(rawTickets);

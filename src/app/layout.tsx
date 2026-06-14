@@ -1,21 +1,29 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fraunces = Fraunces({
   subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "PatchNote",
-  description: "AI-Powered Release Notes That Write Themselves",
+  title: "PatchNote — AI Release Notes That Write Themselves",
+  description: "Connect your Linear or GitHub workspace. PatchNote pulls completed tickets and uses AI to generate polished, audience-aware changelogs instantly.",
 };
 
 export default function RootLayout({
@@ -27,9 +35,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+        className={`${fraunces.variable} ${geist.variable} ${geistMono.variable} h-full`}
       >
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="min-h-full flex flex-col bg-background text-text-primary font-sans antialiased">
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );

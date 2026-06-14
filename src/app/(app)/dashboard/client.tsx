@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -53,23 +53,47 @@ export function DashboardClient({ workspaceId }: { workspaceId: string }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>Generate New Changelog</Button>
+      <DialogTrigger
+        className={buttonVariants({ variant: "default" })}
+        style={{ background: "#FF7A59", color: "#11131A", fontWeight: 600 }}
+      >
+        Generate New Changelog
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent style={{ background: "#1A1D27", border: "1px solid #2A2E3A" }}>
         <DialogHeader>
-          <DialogTitle>Generate Changelog</DialogTitle>
+          <DialogTitle style={{ color: "#F2F0EA", fontFamily: "var(--font-fraunces), serif" }}>
+            Generate Changelog
+          </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleGenerate} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="dateFrom">Start Date</Label>
-            <Input id="dateFrom" type="date" required value={dateFrom} onChange={e => setDateFrom(e.target.value)} />
+            <Label htmlFor="dateFrom" style={{ color: "#A8A8B3" }}>Start Date</Label>
+            <Input
+              id="dateFrom"
+              type="date"
+              required
+              value={dateFrom}
+              onChange={e => setDateFrom(e.target.value)}
+              style={{ background: "#11131A", border: "1px solid #2A2E3A", color: "#F2F0EA" }}
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="dateTo">End Date</Label>
-            <Input id="dateTo" type="date" required value={dateTo} onChange={e => setDateTo(e.target.value)} />
+            <Label htmlFor="dateTo" style={{ color: "#A8A8B3" }}>End Date</Label>
+            <Input
+              id="dateTo"
+              type="date"
+              required
+              value={dateTo}
+              onChange={e => setDateTo(e.target.value)}
+              style={{ background: "#11131A", border: "1px solid #2A2E3A", color: "#F2F0EA" }}
+            />
           </div>
-          <Button type="submit" disabled={isLoading} className="w-full">
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full"
+            style={{ background: "#FF7A59", color: "#11131A", fontWeight: 600 }}
+          >
             {isLoading ? "Generating with Gemini..." : "Generate"}
           </Button>
         </form>

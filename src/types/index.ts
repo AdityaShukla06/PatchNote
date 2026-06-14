@@ -1,4 +1,4 @@
-export type RawTicket = {
+﻿export type RawTicket = {
   id: string;
   title: string;
   description: string;
