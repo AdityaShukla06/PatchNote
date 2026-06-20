@@ -65,5 +65,28 @@ export async function GET(request: Request) {
     return new NextResponse("Database error", { status: 500 });
   }
 
+  try {
+    await fetch("https://data.pendo.io/data/track", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-pendo-integration-key": "5e632937-ab82-4b00-993e-7edaf4bb0f86",
+      },
+      body: JSON.stringify({
+        type: "track",
+        event: "linear_integration_connected",
+        visitorId: userId,
+        accountId: "system",
+        timestamp: Date.now(),
+        properties: {
+          integrationtype: "linear",
+          hasTeamId: !!firstTeamId,
+        },
+      }),
+    });
+  } catch (e) {
+    console.error("Pendo track error:", e);
+  }
+
   return NextResponse.redirect(new URL("/dashboard", request.url));
 }
