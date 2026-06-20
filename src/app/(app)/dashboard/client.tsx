@@ -7,6 +7,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
+declare global {
+  interface Window {
+    pendo?: {
+      track(name: string, properties?: Record<string, unknown>): void;
+    };
+  }
+}
+
 export function DashboardClient({ workspaceId }: { workspaceId: string }) {
   const [open, setOpen] = useState(false);
   const [dateFrom, setDateFrom] = useState("");
@@ -25,9 +33,16 @@ export function DashboardClient({ workspaceId }: { workspaceId: string }) {
       const resGithub = await fetch(`/api/github/prs?workspaceId=${workspaceId}&dateFrom=${dateFrom}&dateTo=${dateTo}`);
       const githubTickets = resGithub.ok ? await resGithub.json() : [];
 
-      const rawTickets = [...(Array.isArray(linearTickets) ? linearTickets : []), ...(Array.isArray(githubTickets) ? githubTickets : [])];
+      const linearArr = Array.isArray(linearTickets) ? linearTickets : [];
+      const githubArr = Array.isArray(githubTickets) ? githubTickets : [];
+      const rawTickets = [...linearArr, ...githubArr];
 
       if (rawTickets.length === 0) {
+        window.pendo?.track("no_tickets_found_in_range", {
+          workspaceId,
+          dateFrom,
+          dateTo,
+        });
         alert("No tickets found in this date range.");
         setIsLoading(false);
         return;
@@ -41,10 +56,28 @@ export function DashboardClient({ workspaceId }: { workspaceId: string }) {
 
       if (!generateRes.ok) throw new Error("Generation failed");
 
+      const generateData = await generateRes.json();
+
+      window.pendo?.track("changelog_generated", {
+        workspaceId,
+        dateFrom,
+        dateTo,
+        ticketCount: rawTickets.length,
+        linearTicketCount: linearArr.length,
+        githubTicketCount: githubArr.length,
+        slug: generateData.slug,
+      });
+
       setOpen(false);
       router.refresh();
     } catch (err) {
       console.error(err);
+      window.pendo?.track("changelog_generation_failed", {
+        workspaceId,
+        dateFrom,
+        dateTo,
+        errorMessage: err instanceof Error ? err.message.substring(0, 200) : "Unknown error",
+      });
       alert("An error occurred during generation.");
     } finally {
       setIsLoading(false);
