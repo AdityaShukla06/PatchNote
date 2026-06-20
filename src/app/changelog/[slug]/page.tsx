@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import Link from "next/link";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 
@@ -26,20 +25,6 @@ export default async function ChangelogPage(props: { params: Promise<{ slug: str
 
   return (
     <div className="min-h-screen" style={{ background: "#11131A", color: "#F2F0EA" }}>
-      <Script
-        id="novus-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(n,o,v,u,s){n[s]=n[s]||function(){(n[s].q=n[s].q||[]).push(arguments)};
-            let e=o.createElement(v),a=o.getElementsByTagName(v)[0];
-            e.async=1;e.src=u;a.parentNode.insertBefore(e,a)})(window,document,'script','https://cdn.novus.ai/track.js','novus');
-            novus('init', 'HACKATHON_DEMO_KEY');
-            novus('pageview');
-          `,
-        }}
-      />
-
       {/* Minimal header */}
       <header className="border-b px-6 py-5" style={{ borderColor: "#2A2E3A" }}>
         <div className="max-w-3xl mx-auto flex items-center justify-between">
