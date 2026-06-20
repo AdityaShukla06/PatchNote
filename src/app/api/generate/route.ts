@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { GoogleGenAI } from "@google/genai";
 
+export const maxDuration = 60; // Allow up to 60 seconds for Gemini on Vercel
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
