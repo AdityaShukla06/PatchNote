@@ -19,7 +19,8 @@ export default async function DashboardPage() {
   const { data: workspaces } = await supabase
     .from("workspaces")
     .select("*")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
 
   const hasLinear = workspaces?.some(w => w.integration_type === "linear");
   const hasGitHub = workspaces?.some(w => w.integration_type === "github");
